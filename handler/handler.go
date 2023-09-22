@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"digitalbank/commands"
 )
 
 var accountNumber int
@@ -38,31 +40,31 @@ func (h *handler) BankOperations(input string) {
 		}
 
 		switch command[0] {
-		case "create_account":
+		case commands.CreateAccount:
 			accountNumber++
 			h.opts.CreateAccount(accountNumber)
-		case "deposit":
+		case commands.DepositMoney:
 			if len(command) != 3 {
 				fmt.Println("Invalid deposit command")
 				continue
 			}
 			acctNo, amount := parseArgs(command)
 			h.opts.Deposit(acctNo, amount)
-		case "withdraw":
+		case commands.WithdrawMoney:
 			if len(command) != 3 {
 				fmt.Println("Invalid withdraw command")
 				continue
 			}
 			acctNo, amount := parseArgs(command)
 			h.opts.Withdraw(acctNo, amount)
-		case "display_balance":
+		case commands.DisplayBalance:
 			if len(command) != 2 {
 				fmt.Println("Invalid display_balance command")
 				continue
 			}
 			acctNo := parseAccountNumber(command[1])
 			h.opts.DisplayBalance(acctNo)
-		case "display_bank_balance":
+		case commands.DisplayBankBalance:
 			h.opts.DisplayBankBalance()
 		default:
 			fmt.Printf("Invalid command: %s\n", command[0])
